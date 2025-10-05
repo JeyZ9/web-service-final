@@ -293,10 +293,10 @@ const Add = () => {
         {/* ////////////////////////////// */}
 
         {/* //////////// comic /////////// */}
-        <label className={`label ${type !== "comic" ? "hidden" : ""}`}>volume</label>
+        <label className={`label ${type !== "comic" ? "hidden" : ""}`}>volumeNumber</label>
         <input
           type="text"
-          value={addItem.volume}
+          value={addItem.volumeNumber}
           name="volume"
           className={`input ${type !== "comic" ? "hidden" : ""}`}
           placeholder=""
@@ -304,10 +304,10 @@ const Add = () => {
           required
         />
 
-        <label className={`label ${type !== "comic" ? "hidden" : ""}`}>issue</label>
+        <label className={`label ${type !== "comic" ? "hidden" : ""}`}>series</label>
         <input
           type="text"
-          value={addItem.issue}
+          value={addItem.series}
           name="issue"
           className={`input ${type !== "comic" ? "hidden" : ""}`}
           placeholder=""
@@ -315,11 +315,31 @@ const Add = () => {
           required
         />
 
-        <label className={`label ${type !== "comic" ? "hidden" : ""}`}>publicationFrequency</label>
+        <label className={`label ${type !== "comic" ? "hidden" : ""}`}>illustrator</label>
         <input
           type="text"
-          value={addItem.publicationFrequency}
-          name="publicationFrequency"
+          value={addItem.illustrator}
+          name="illustrator"
+          className={`input ${type !== "comic" ? "hidden" : ""}`}
+          placeholder=""
+          onChange={handlechange}
+          required
+        />
+        <label className={`label ${type !== "comic" ? "hidden" : ""}`}>targetAge</label>
+        <input
+          type="text"
+          value={addItem.targetAge}
+          name="targetAge"
+          className={`input ${type !== "comic" ? "hidden" : ""}`}
+          placeholder=""
+          onChange={handlechange}
+          required
+        />
+        <label className={`label ${type !== "comic" ? "hidden" : ""}`}>colorType</label>
+        <input
+          type="text"
+          value={addItem.colorType}
+          name="colorType"
           className={`input ${type !== "comic" ? "hidden" : ""}`}
           placeholder=""
           onChange={handlechange}
