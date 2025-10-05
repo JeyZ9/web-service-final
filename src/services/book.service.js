@@ -21,12 +21,19 @@ const deleteBook = async (id) => {
     return api.delete(`${url}/${id}`);
 }
 
+const search = async (keyword) => {
+  return await api.get(
+    `${url}/search?q=${keyword}&page=1&limit=10`
+  );
+};
+
 const bookService = {
     showAllBookDetails,
     showBookDetailsById,
     addBook,
     updateBook,
-    deleteBook
+    deleteBook,
+    search
 }
 
 export default bookService;

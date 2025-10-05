@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Card from "../components/Card";
 import journalService from "../services/journals.service";
+import ShowItem from "../components/ShowItem";
+import Search from "../components/Search";
 
 const Journals = () => {
-  const [items, setItems] = useState([]);
+  const [ items, setItems ] = useState([]);
+  const [ filterItems, setFilterItems ] = useState([]);
 
   useEffect(() => {
     try {
@@ -11,6 +13,7 @@ const Journals = () => {
         const response = await journalService.getAll();
         if (response.status === 200) {
           setItems(response.data.data);
+          setFilterItems(response.data.data);
         }
         return response.data;
       };
@@ -20,21 +23,22 @@ const Journals = () => {
       console.log(err);
     }
   }, []);
-  console.log(items.data);
+  
+  const handleSearch = async (keyword) => {
+
+    if(keyword === ""){
+      setFilterItems(items);
+      return;
+    }
+    const response = await journalService.search(keyword);
+    setFilterItems(response.data.data);
+  }
+
   return (
-    <div className="container grid grid-cols-4 gap-4">
-      {items &&
-        items.map((item) => (
-          <Card
-            key={item.itemId}
-            itemId={item.id}
-            title={item.author}
-            author={item.author}
-            coverImage={item.coverImage}
-            description={item.description}
-          />
-        ))}
-    </div>
+    <>
+      <Search handleSearch={handleSearch} />
+      <ShowItem items={filterItems} />
+    </>
   );
 };
 

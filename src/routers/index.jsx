@@ -6,6 +6,8 @@ import Book from "../pages/Book";
 import Journals from "../pages/Journals";
 import Comic from "../pages/Comic";
 import Add from "../pages/Add";
+import Update from "../pages/Update";
+import ShowItemDetails from "../pages/ShowItemDetails";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
       {
         path: "/add/:type",
         element: <Add />,
+      },
+      {
+        path: "/update/:type/:id",
+        element: <Update />,
+      },
+      {
+        path: "/:type/:id",
+        element: <ShowItemDetails />,
       },
       {
         path: "/books",

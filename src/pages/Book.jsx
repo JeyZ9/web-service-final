@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Card from "../components/Card";
 import bookService from "../services/book.service";
+import ShowItem from "../components/ShowItem";
+import Search from "../components/Search";
 
 const Book = () => {
-  const [items, setItems] = useState([]);
+  const [ items, setItems ] = useState([]);
+  const [ filterItems, setFilterItems ] = useState([]);
+  const type = "book";
 
   useEffect(() => {
     try {
@@ -11,6 +14,7 @@ const Book = () => {
         const response = await bookService.showAllBookDetails();
         if (response.status === 200) {
           setItems(response.data.data);
+          setFilterItems(response.data.data);
         }
         return response.data;
       };
@@ -20,21 +24,22 @@ const Book = () => {
       console.log(err);
     }
   }, []);
-  console.log(items.data);
+  
+  const handleSearch = async (keyword) => {
+
+    if(keyword === ""){
+      setFilterItems(items);
+      return;
+    }
+    const response = await bookService.search(keyword);
+    setFilterItems(response.data.data);
+  }
+
   return (
-    <div className="container grid grid-cols-4 gap-4">
-      {items &&
-        items.map((item) => (
-          <Card
-            key={item.itemId}
-            itemId={item.id}
-            title={item.author}
-            author={item.author}
-            coverImage={item.coverImage}
-            description={item.description}
-          />
-        ))}
-    </div>
+    <>
+      <Search handleSearch={handleSearch} />
+      <ShowItem items={filterItems} />
+    </>
   );
 };
 

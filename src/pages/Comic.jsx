@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Card from "../components/Card";
 import comicService from "../services/comics.service";
+import ShowItem from "../components/ShowItem";
+import Search from "../components/Search";
 
 const Comic = () => {
-  const [items, setItems] = useState([]);
+    const [ items, setItems ] = useState([]);
+    const [ filterItems, setFilterItems ] = useState([]);
 
   useEffect(() => {
     try {
@@ -11,6 +13,7 @@ const Comic = () => {
         const response = await comicService.getAll();
         if (response.status === 200) {
           setItems(response.data.data);
+          setFilterItems(response.data.data);
         }
         return response.data;
       };
@@ -20,21 +23,22 @@ const Comic = () => {
       console.log(err);
     }
   }, []);
-  console.log(items.data);
+  
+  const handleSearch = async (keyword) => {
+
+    if(keyword === ""){
+      setFilterItems(items);
+      return;
+    }
+    const response = await comicService.search(keyword);
+    setFilterItems(response.data.data);
+  }
+
   return (
-    <div className="container grid grid-cols-4 gap-4">
-      {items &&
-        items.map((item) => (
-          <Card
-            key={item.itemId}
-            itemId={item.id}
-            title={item.author}
-            author={item.author}
-            coverImage={item.coverImage}
-            description={item.description}
-          />
-        ))}
-    </div>
+    <>
+      <Search handleSearch={handleSearch} />
+      <ShowItem items={filterItems} />
+    </>
   );
 };
 

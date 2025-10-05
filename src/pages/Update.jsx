@@ -5,31 +5,32 @@ import { useNavigate, useParams } from "react-router";
 import journalService from "../services/journals.service";
 import comicService from "../services/comics.service";
 
-const Add = () => {
+const Update = () => {
+  const { type, id } = useParams();
 
-  const { type } = useParams();
+  console.log(type, id)
 
   const [addItem, setAddItem] = useState({
-    title: "",
-    author: "",
-    category: "",
-    publishYear: 0,
-    isbn: "",
-    status: "AVAILABLE",
-    coverImage: "https://example.com/cover.jpg",
-    description: "",
-    location: "",
-    addedDate: Date().now,
-    itemType: "",
-    publisher: "",
-    edition: "",
-    pageCount: 0,
-    language: "",
-    genre: "",
-    volume: "",
-    issn: "",
-    issue: "",
-    publicationFrequency: "",
+    // title: "",
+    // author: "",
+    // category: "",
+    // publishYear: 0,
+    // isbn: "",
+    // status: "AVAILABLE",
+    // coverImage: "https://example.com/cover.jpg",
+    // description: "",
+    // location: "",
+    // addedDate: Date().now,
+    // itemType: "",
+    // publisher: "",
+    // edition: "",
+    // pageCount: 0,
+    // language: "",
+    // genre: "",
+    // volume: "",
+    // issn: "",
+    // issue: "",
+    // publicationFrequency: "",
   });
 
   const navigate = useNavigate();
@@ -38,6 +39,28 @@ const Add = () => {
     const { name, value } = e.target;
     setAddItem({ ...addItem, [name]: value });
   };
+
+  useEffect(() => {
+      const fetchItemById = async () => {
+        let response;
+        if(type == "book"){
+            response = await bookService.showBookDetailsById(id);
+        }
+
+        if(type == "journal"){
+            response = await journalService.getById(id);
+        }
+
+        if(type == "comic"){
+            response = await comicService.getById(id);
+        }
+
+        setAddItem(response.data.data);
+
+        return response;
+    }
+    fetchItemById();
+  }, [id]);
 
   // console.log(type);
   useEffect(() => {
@@ -50,18 +73,18 @@ const Add = () => {
     try {
       let response;
       if (type === "book") {
-        response = await bookService.addBook(addItem);
+        response = await bookService.updateBook(id, addItem);
       }
 
       if (type === "journal") {
-        response = await journalService.add(addItem);
+        response = await journalService.update(id, addItem);
       }
 
       if (type === "comic") {
-        response = await comicService.add(addItem);
+        response = await comicService.update(id, addItem);
       }
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         Swal.fire({
           icon: "success",
           title: "added successful!",
@@ -73,8 +96,8 @@ const Add = () => {
           category: "",
           publishYear: 0,
           isbn: "",
-          status: "AVAILABLE",
-          coverImage: "https://example.com/cover.jpg",
+          status: "",
+          coverImage: "",
           description: "",
           location: "",
           itemType: "",
@@ -103,7 +126,7 @@ const Add = () => {
   return (
     <>
       <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-        <legend className="fieldset-legend text-2xl">Add Restaurant</legend>
+        <legend className="fieldset-legend text-2xl">Update {type}</legend>
 
         <label className="label">Title</label>
         <input
@@ -353,7 +376,7 @@ const Add = () => {
             onClick={handleSubmit}
             className="btn btn-accent w-full text-white"
           >
-            Add
+            Update
           </button>
         </div>
       </fieldset>
@@ -361,4 +384,4 @@ const Add = () => {
   );
 };
 
-export default Add;
+export default Update

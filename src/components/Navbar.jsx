@@ -35,10 +35,13 @@ const Navbar = () => {
                 <a href="/">Homepage</a>
               </li>
               <li>
-                <a href="/activity">activity</a>
+                <a href="/books">Book</a>
               </li>
               <li>
-                <a href="/add-activity">add activity</a>
+                <a href="/journals">Journal</a>
+              </li>
+              <li>
+                <a href="/comics">Comic</a>
               </li>
             </ul>
           </div>
