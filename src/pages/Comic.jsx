@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import comicService from "../services/comics.service";
 import ShowItem from "../components/ShowItem";
 import Search from "../components/Search";
+import { Link } from "react-router";
 
 const Comic = () => {
     const [ items, setItems ] = useState([]);
@@ -36,7 +37,10 @@ const Comic = () => {
 
   return (
     <>
-      <Search handleSearch={handleSearch} />
+      <div className="flex gap-4 items-center">
+        <Search handleSearch={handleSearch} />
+        <Link className="btn btn-primary" to={`/add/comic`}>Add</Link>
+      </div>
       <ShowItem items={filterItems} />
     </>
   );

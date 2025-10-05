@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import journalService from "../services/journals.service";
 import ShowItem from "../components/ShowItem";
 import Search from "../components/Search";
+import { Link } from "react-router";
 
 const Journals = () => {
   const [ items, setItems ] = useState([]);
@@ -36,7 +37,10 @@ const Journals = () => {
 
   return (
     <>
-      <Search handleSearch={handleSearch} />
+      <div className="flex gap-4 items-center">
+        <Search handleSearch={handleSearch} />
+        <Link className="btn btn-primary" to={`/add/journal`}>Add</Link>
+      </div>
       <ShowItem items={filterItems} />
     </>
   );

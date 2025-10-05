@@ -87,7 +87,7 @@ const Update = () => {
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "added successful!",
+          title: "Updated successful!",
         });
 
         setAddItem({
@@ -117,14 +117,14 @@ const Update = () => {
       console.log(error);
       Swal.fire({
         icon: "error",
-        title: "add failed!",
+        title: "Updated failed!",
         text: "Invalid data",
       });
     }
   };
 
   return (
-    <>
+    <div className="flex justify-center">
       <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
         <legend className="fieldset-legend text-2xl">Update {type}</legend>
 
@@ -380,7 +380,7 @@ const Update = () => {
           </button>
         </div>
       </fieldset>
-    </>
+    </div>
   );
 };
 

@@ -101,9 +101,9 @@ const Add = () => {
   };
 
   return (
-    <>
-      <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-        <legend className="fieldset-legend text-2xl">Add Restaurant</legend>
+    <div className="flex justify-center">
+      <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4 w-xs">
+        <legend className="fieldset-legend text-2xl">Add {type}</legend>
 
         <label className="label">Title</label>
         <input
@@ -357,7 +357,7 @@ const Add = () => {
           </button>
         </div>
       </fieldset>
-    </>
+    </div>
   );
 };
 

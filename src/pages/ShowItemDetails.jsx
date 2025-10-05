@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import bookService from '../services/book.service';
 import journalService from '../services/journals.service';
 import comicService from '../services/comics.service';
@@ -36,7 +36,34 @@ const ShowItemDetails = () => {
         fetchItemById();
     }, [id]);
 
-    console.log(item);
+    const handleDelete = async () => {
+        let response;
+        if(type == "book"){
+            response = await bookService.deleteBook(id);
+        }
+
+        if(type == "journal"){
+            response = await journalService.deleted(id);
+        }
+
+        if(type == "comic"){
+            response = await comicService.deleted(id);
+        }
+
+        if(!response.status){
+            Swal.fire({
+                icon: "error",
+                title: "Updated failed!",
+                text: "Invalid data",
+            });
+        }
+
+        Swal.fire({
+            icon: "success",
+            title: "Updated successful!",
+        });
+    }
+
 
   return (
     <div>
@@ -63,10 +90,10 @@ const ShowItemDetails = () => {
                 </div>
             </div>
         )}
-                <div className="w-full flex justify-end gap-4">
-            <button className='btn btn-warning'>
+        <div className="w-full flex justify-end gap-4">
+            <Link to={`/update/${type}/${id}`} className='btn btn-warning'>
                 Edit
-            </button>
+            </Link>
             <button className='btn btn-error'>
                 Deleded
             </button>

@@ -14,7 +14,7 @@ const Card = (props) => {
           <p className='text-wrap truncate text-ellipsis w-[235px] h-[42px]'>{description}</p>
           <div className="card-actions justify-between">
             <p>{author}</p>
-            <Link to={`/${itemType.toLowerCase()}/${id}`} className="btn btn-primary">Listen</Link>
+            <Link to={`/${itemType.toLowerCase()}/${id}`} className="btn btn-primary">Read</Link>
           </div>
         </div>
       </div>

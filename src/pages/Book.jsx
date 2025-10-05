@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import bookService from "../services/book.service";
 import ShowItem from "../components/ShowItem";
 import Search from "../components/Search";
+import { Link } from "react-router";
 
 const Book = () => {
   const [ items, setItems ] = useState([]);
   const [ filterItems, setFilterItems ] = useState([]);
-  const type = "book";
 
   useEffect(() => {
     try {
@@ -37,7 +37,10 @@ const Book = () => {
 
   return (
     <>
-      <Search handleSearch={handleSearch} />
+      <div className="flex gap-4 items-center">
+        <Search handleSearch={handleSearch} />
+        <Link className="btn btn-primary" to={`/add/book`}>Add</Link>
+      </div>
       <ShowItem items={filterItems} />
     </>
   );
