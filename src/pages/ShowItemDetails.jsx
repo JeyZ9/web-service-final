@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 import bookService from '../services/book.service';
 import journalService from '../services/journals.service';
 import comicService from '../services/comics.service';
+import Swal from "sweetalert2"
 
 const ShowItemDetails = () => {
     const [ item, setItem ] = useState([]);
     const { type, id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
     if(!(type == "book" || type == "journal" || type == "comic")){
@@ -36,32 +38,42 @@ const ShowItemDetails = () => {
         fetchItemById();
     }, [id]);
 
-    const handleDelete = async () => {
-        let response;
-        if(type == "book"){
-            response = await bookService.deleteBook(id);
-        }
-
-        if(type == "journal"){
-            response = await journalService.deleted(id);
-        }
-
-        if(type == "comic"){
-            response = await comicService.deleted(id);
-        }
-
-        if(!response.status){
-            Swal.fire({
-                icon: "error",
-                title: "Updated failed!",
-                text: "Invalid data",
-            });
-        }
-
+    const handleDelete = () => {
         Swal.fire({
-            icon: "success",
-            title: "Updated successful!",
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+                });
+
+                let response;
+                if(type == "book"){
+                    response = bookService.deleteBook(id);
+                }
+
+                if(type == "journal"){
+                    response = journalService.deleted(id);
+                }
+
+                if(type == "comic"){
+                    response = comicService.deleted(id);
+                }
+
+                navigate(`/`)
+
+                return response;
+            }
         });
+        
     }
 
 
@@ -94,7 +106,7 @@ const ShowItemDetails = () => {
             <Link to={`/update/${type}/${id}`} className='btn btn-warning'>
                 Edit
             </Link>
-            <button className='btn btn-error'>
+            <button className='btn btn-error' onClick={handleDelete}>
                 Deleded
             </button>
         </div>
